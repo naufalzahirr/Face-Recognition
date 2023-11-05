@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "head.html" %}
+</head>
+<body>
+
+{% include "navbar.html" %}
+
+<section class="py-1">
+    <div class="row mt-5">
+        <div class="col-md-7 offset-lg-2">
+            <img id="video" src="{{ url_for('video_feed') }}" width="100%" class="img-thumbnail">
+        </div>
+    </div>
+<button id="redirectButton">Arahkan ke Google</button>
+
+</section>
+
+<script>
+document.getElementById("redirectButton").addEventListener("click", function() {
+    fetch("/recognize_face")
+        .then(response => response.json())
+        .then(data => {
+            var confidence = data.confidence;  // Mengambil nilai confidence dari respons JSON
+            if (confidence > 70) {
+                window.location.href = "https://www.google.com";  // URL yang akan Anda arahkan
+            } else {
+                // Tindakan lain jika confidence tidak memenuhi kondisi
+                alert("Confidence kurang dari 70, tidak diarahkan.");
+            }
+        });
+});
+</script>
+
+
+
+
+</body>
+
+</html>
